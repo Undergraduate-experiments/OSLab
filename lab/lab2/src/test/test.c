@@ -20,7 +20,6 @@ void c(){
 void test_proc(){
      kthread_create(a,"A_proc");
      kthread_create(b,"B_proc");
-     kthread_create(c,"C_proc");
-     
+     kthread_create(c,"C_proc"); 
 }
 

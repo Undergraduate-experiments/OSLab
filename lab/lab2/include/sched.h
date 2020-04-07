@@ -1,5 +1,5 @@
-#include "list.h"
 #include "x86.h"
+#include "list.h"
 #include "string.h"
 #include "debug.h"
 #define KSTACKSIZE 1024

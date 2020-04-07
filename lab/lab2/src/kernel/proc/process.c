@@ -40,13 +40,18 @@ struct task_struct * init_pcb(struct task_struct *p,void(*proc)(void),const char
 	tf->irq=0x03e8;
 	memcpy(p->pname,name,7);//设置进程名字
 	list_init(p->linklist);
+        //list_add(RunableList.prev,RunableList.next,p->linklist);
 	return p;
 }
 
 struct task_struct * alloc_proc() {
-    struct task_struct *p;
-    task[nextpid].state=UNUSED;
-    p=&task[nextpid];
+   int i = 0 ;
+    struct task_struct *p = NULL;
+    for(i=1; i < NR_PROC;i++){
+   // task[nextpid].state=UNUSED;
+   // p=&task[nextpid];
+      if(task[i].state == 0) {p = &task[i]; break;}
+  }
     return p ;
 }
 //进程创建
