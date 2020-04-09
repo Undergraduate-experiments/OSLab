@@ -1,10 +1,10 @@
 #include "x86.h"
 #include "kernel.h"
-
+#include "sched.h"
 void irq_handle(TrapFrame *tf) {
 	int irq = tf->irq;
 	assert(irq >= 0);
-
+        current->tf = tf; //s
 	if (irq < 1000) {
 		// exception
 		cli();
@@ -14,6 +14,8 @@ void irq_handle(TrapFrame *tf) {
 		panic("unexpected exception");
 	} else if (irq >= 1000) {
 		// external interrupt
+                printk("interput...\n");
+                schedule();
 	}
 }
 

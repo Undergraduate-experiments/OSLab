@@ -18,15 +18,14 @@ void os_init(void) {
         idle_init();
         test_proc();
         int i = 0;
-         // printk("%d %d\n",i,task[1].pid);
+ 
          struct task_struct*p = NULL;
-        while(1) {
-       // printk("%d...name=%s\n",task[i].pid,task[i].pname);
-        //++i;
+         while(1) {
           p  = &task[i++];
           if(p->state != 0) {printk("pid:%d  name:%s\n",p->pid,p->pname);}
           else {break;}
         }
+   
 	while (TRUE) {
 		wait_intr();
 	}

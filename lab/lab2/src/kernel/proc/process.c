@@ -1,7 +1,7 @@
 #include "sched.h"
 //extern int nextpid = 0 ;
 int nextpid = 0 ;
-static struct task_struct * current;
+struct task_struct * current;
 //进程表初始化
 void task_init(){ 
   int i = 0;
@@ -39,8 +39,8 @@ struct task_struct * init_pcb(struct task_struct *p,void(*proc)(void),const char
 	tf->esp=(uint32_t)tf;
 	tf->irq=0x03e8;
 	memcpy(p->pname,name,7);//设置进程名字
-	list_init(p->linklist);
-        //list_add(RunableList.prev,RunableList.next,p->linklist);
+	list_init(&p->linklist);
+        list_add(RunableList.prev,RunableList.next,&p->linklist);
 	return p;
 }
 
