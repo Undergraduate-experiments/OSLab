@@ -1,7 +1,7 @@
 #include "sched.h"
 //extern int nextpid = 0 ;
 int nextpid = 0 ;
-struct task_struct * current;
+//struct task_struct * current;
 //进程表初始化
 void task_init(){ 
   int i = 0;
@@ -9,6 +9,7 @@ void task_init(){
   {
        task[i].state = UNUSED; //当前系统中没有进程
   }
+   list_init(&RunableList);
 }
 
 //创建 0 号进程
@@ -39,8 +40,7 @@ struct task_struct * init_pcb(struct task_struct *p,void(*proc)(void),const char
 	tf->esp=(uint32_t)tf;
 	tf->irq=0x03e8;
 	memcpy(p->pname,name,7);//设置进程名字
-	list_init(&p->linklist);
-        list_add(RunableList.prev,RunableList.next,&p->linklist);
+	list_add_after(&RunableList,&p->linklist);
 	return p;
 }
 
@@ -48,8 +48,6 @@ struct task_struct * alloc_proc() {
    int i = 0 ;
     struct task_struct *p = NULL;
     for(i=1; i < NR_PROC;i++){
-   // task[nextpid].state=UNUSED;
-   // p=&task[nextpid];
       if(task[i].state == 0) {p = &task[i]; break;}
   }
     return p ;
@@ -59,31 +57,8 @@ struct task_struct * kthread_create(void(*proc)(void),const char* name){
     struct task_struct *p = alloc_proc();
     init_pcb(p,proc,name);  
     //
-    printk("%dcreated %s\n",nextpid,name);
+    int pidnum = nextpid - 1 ;
+    printk("%dcreated %s\n",pidnum,name);
     //
     return p ;     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

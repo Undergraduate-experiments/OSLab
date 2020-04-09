@@ -13,22 +13,6 @@ typedef struct ListHead ListHead;
 #define list_entry(ptr, type, member) \
 	((type*)((char*)(ptr) - (int)(&((type*)0)->member)))
 
-
-
-#define list_first_entry(ptr, type, member) \
-	list_entry((ptr)->next, type, member)
-
-
-#define list_next_entry(pos, member) \
-	list_entry((pos)->member.next, typeof(*(pos)), member)
-
-
-#define list_for_each_entry(pos, head, member)				\
-	for (pos = list_first_entry(head, typeof(*pos), member);	\
-	     &pos->member != (head);					\
-	     pos = list_next_entry(pos, member))
-
-
 static inline void
 list_add(ListHead *prev, ListHead *next, ListHead *data) {
 	assert(data != NULL);

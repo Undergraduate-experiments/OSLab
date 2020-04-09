@@ -17,15 +17,9 @@ void os_init(void) {
         task_init();
         idle_init();
         test_proc();
-        int i = 0;
- 
-         struct task_struct*p = NULL;
-         while(1) {
-          p  = &task[i++];
-          if(p->state != 0) {printk("pid:%d  name:%s\n",p->pid,p->pname);}
-          else {break;}
-        }
-   
+        
+        display();
+        sti();
 	while (TRUE) {
 		wait_intr();
 	}

@@ -16,7 +16,7 @@ struct task_struct{
 struct task_struct task[NR_PROC];//进程表
 
 extern  int nextpid ;
-extern struct task_struct *current; //当前进程
+struct task_struct *current; //当前进程
 ListHead RunableList; //就绪队列
 
 
@@ -25,6 +25,6 @@ void idle_init();
 struct task_struct * init_pcb(struct task_struct *p,void(*proc)(void),const char *name);
 struct task_struct * kthread_create(void(*proc)(void),const char* name);
 struct task_struct * alloc_proc();
-void schedule();
+int schedule();
 
 

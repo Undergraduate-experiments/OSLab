@@ -4,3 +4,4 @@ void a();
 void b();
 void c();
 void test_proc();
+void display();

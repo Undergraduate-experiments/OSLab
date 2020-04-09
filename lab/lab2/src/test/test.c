@@ -23,3 +23,14 @@ void test_proc(){
      kthread_create(c,"C_proc"); 
 }
 
+void display(){
+   struct task_struct* p;
+   ListHead *list;
+   list = &RunableList;
+   while(list->next != &RunableList){
+    p = list_entry(list->next,struct task_struct ,linklist);
+    printk("pid=%d...name=%s\n",p->pid,p->pname);
+    list = list->next;
+  }
+
+}
