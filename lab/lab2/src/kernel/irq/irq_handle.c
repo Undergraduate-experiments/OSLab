@@ -16,7 +16,7 @@ void irq_handle(TrapFrame *tf) {
 	} else if (irq >= 1000) {
 	       //printk("Interrupt....\n");
        	       //external interrupt
-               if(irq == 0) {schedule()};
+               if(irq == 1000) {schedule();}
 	}
 }
 
