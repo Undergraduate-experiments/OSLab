@@ -1,5 +1,6 @@
 #include "sem.h"
 int in = 0 ,out = 0;
+int lock_count  = 0;
 void init_semtab()
 {
    int i = 0 ;
@@ -28,18 +29,28 @@ int delete_sem(struct semaphore *sem)
 
 void P(struct semaphore *sem)
 {   
+    lock();
+    int flag = 0;
+    lock_count++;
     sem->value--;
     if(sem->value < 0){
+        lock_count--;
+        flag = 1 ;
+        unlock();
         current->state = STOPED;
         list_del(&current->linklist); 
         list_add_after(&sem->waitlist,&current->linklist);
         asm volatile("int $0x80");   
     }
+    if(flag == 0)        {lock_count--;}
+    if(lock_count >= 0)  {unlock();}  
 }
 
 
 void V(struct semaphore *sem)
 {
+     lock();
+     lock_count++;
      sem->value++; 
      struct task_struct *pcb;  
      if(sem->value <= 0) {
@@ -48,6 +59,8 @@ void V(struct semaphore *sem)
      pcb->state = RUNNABLE;
      list_add_before(&RunableList,&pcb->linklist);
      }
+     lock_count--;
+    if(lock_count >= 0)  {unlock();}
 }
 
 

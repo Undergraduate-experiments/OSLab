@@ -56,17 +56,20 @@ void producer()
 void consumer()
 {
         
-  // item items ;
-   while(1){
+    item items ;
+    while(1){
     printk("full-value: %d.. empty-value: %d..\n",full->value,empty->value);
     P(full);
-   // P(mutex);
-   
-   // items = buffer[out];
+
+    int a = 0  ; 
+    a = items.num;
+    items = buffer[out];
+    a = buffer[out].num;
+    buffer[out].num = a ;
     out  = (out+1)% BUFFER_SIZE;
 
     V(empty);
-    //V(mutex);
+
     printk("full-value: %d.. empty-value: %d..\n",full->value,empty->value);
     wait_intr();
 
