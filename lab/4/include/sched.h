@@ -4,7 +4,10 @@
 #include "debug.h"
 #include "string.h"
 #define KSTACKSIZE 1024
-#define NR_PROC 64
+#define NR_PROC 64  
+//4.3
+#define PROC_IMAGE_SIZE_DEFAULT  64*1024*1024 /*进程默认大小为64MB*/
+//
 enum proc_state{UNUSED=0,RUNNABLE,RUNNING,BLOCKED,STOPED};
 struct semaphore
 {
@@ -27,6 +30,16 @@ struct task_struct{
 
      struct semaphore       *message;
      struct Message  *msg;
+
+     //4.3
+	int nice; 
+	int counter; 
+	pid_t  ppid;             //父进程ID
+	unsigned long start_code;   //代码段地址
+	unsigned long end_code;   //代码段长度(字节数)
+	unsigned long end_data;    //代码长度+数据长度（字节数）
+	unsigned long brk;         //总长度（字节数）
+	unsigned long start_stack;   //堆栈段地址    
 };
 struct task_struct task[NR_PROC];//进程表
 
@@ -44,5 +57,11 @@ int schedule();
 
 
 struct task_struct * find_pcb(int pid);
+
+//4.3
+int copy_mem(struct task_struct *p);
+struct task_struct * do_fork(void(*proc)(void),const char* name);
+
+
 
 

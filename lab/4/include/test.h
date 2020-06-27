@@ -22,4 +22,6 @@ void  four_p1();
 void four_one();
 void print_mem_map();
 void  four_p2();
+void four_two();
+void four_p3();
 //void print_dir_page();

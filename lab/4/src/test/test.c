@@ -98,9 +98,24 @@ void  four_p1()
 
 void  four_p2()
 {
+  while(1){
    printk("\n\n\n\n\n\n");
    print_dir_page();
+   wait_intr();
+   }
 
+}
+
+
+void four_p3()
+{
+
+    printk("do_fork success!\n");
+    printk("\n\n\nprintf_mem_map\n\n\n");
+    print_mem_map();
+    printk("\n\n\nprintf_dir_page\n\n\n");
+    print_dir_page();
+  
 }
 
 void four_one()
@@ -109,6 +124,11 @@ void four_one()
       //kthread_create(four_p1,"p2");
 }
 
+void four_two()
+{
+   // kthread_create(four_p3,"p1");
+   do_fork(four_p3,"p1");
+}
 
 void init_semaphore()
 {

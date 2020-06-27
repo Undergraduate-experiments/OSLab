@@ -21,10 +21,13 @@ void os_init(void) {
         
         //4.1
         mem_init(9 * 1024 * 1024, 128 * 1024 * 1024);
-        print_mem_map();
+        printk("\n\n init_map \n\n");
+       // print_mem_map();
+        printk("\nn\n\n\n\\n");
         //4.2
-        four_one();
-
+       // four_one();
+        //4.3
+        four_two();
         sti();
 	while (TRUE) {
 		wait_intr();

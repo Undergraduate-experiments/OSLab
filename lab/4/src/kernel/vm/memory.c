@@ -22,7 +22,7 @@ unsigned long get_free_page(void)
 {
      for(int i = 0 ; i < PAGING_PAGES ; ++i )
      {
-          if(mem_map[i].ref == 0)  {cnt_use++ ;return  i * 4096 ;}
+          if(mem_map[i].ref == 0)  { mem_map[i].ref = 100 ;cnt_use++ ;return  i * 4096 ;}
      }
      return -1;
 }

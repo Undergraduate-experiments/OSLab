@@ -1,4 +1,5 @@
 #include "sched.h"
+#include "vm.h"
 //extern int nextpid = 0 ;
 int nextpid = 0 ;
 //struct task_struct * current;
@@ -70,4 +71,39 @@ struct task_struct * find_pcb(int pid)
      int pos = 0 ;
      for(int i = 0  ; i < NR_PROC ; i++ )  {if(i == pid)  {pos = i ; break;}}
      return &task[pos];
+}
+
+//4.3 进程创建
+struct task_struct * do_fork(void(*proc)(void),const char* name)
+{
+   struct task_struct *p = alloc_proc();
+   init_pcb(p,proc,name);
+   copy_mem(p);
+   int pidnum = nextpid - 1 ;
+   printk("pid is %d created  name is %s father is 0 \n",pidnum,name);
+   return p; 
+}
+
+int copy_mem(struct task_struct *p)
+{
+  	//int nice;
+	p->counter = ++task[0].counter; 
+	p->ppid = task[0].pid;             //父进程ID
+	p->start_code = p->pid *  PROC_IMAGE_SIZE_DEFAULT ;  //代码段地址
+	p->end_code   = PROC_IMAGE_SIZE_DEFAULT;    //代码段长度(字节数)
+	p->end_data   = PROC_IMAGE_SIZE_DEFAULT;    //代码长度+数据长度（字节数）
+	p->brk        = PROC_IMAGE_SIZE_DEFAULT;         //总长度（字节数）
+	p->start_stack   = p->pid *  PROC_IMAGE_SIZE_DEFAULT;   //堆栈段地址 
+        
+        //int New_data_base = p->pid*PROC_IMAGE_SIZE_DEFAULT;
+        //int New_code_base = p->pid*PROC_IMAGE_SIZE_DEFAULT;
+         unsigned long address = p->pid*PROC_IMAGE_SIZE_DEFAULT;
+        while(address < p->pid*PROC_IMAGE_SIZE_DEFAULT + PROC_IMAGE_SIZE_DEFAULT)
+        {
+           put_page(get_free_page(),p->pid*PROC_IMAGE_SIZE_DEFAULT);
+           address = address +  4096;
+        } 
+   
+      
+        return p->pid;
 }
