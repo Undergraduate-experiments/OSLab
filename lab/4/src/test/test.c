@@ -77,12 +77,17 @@ void test_proc_Msg()
 void print_mem_map()
 {
     int cnt = 0 ;
+    int empty = 0;
+    int full = 0;
     for(int i = 0 ; i < PAGING_PAGES ; ++i)
     {
        printk("%d ", mem_map[i].ref);
+       if(mem_map[i].ref)  {++full;}
+       else {++empty;}
        ++cnt;
        if(cnt == 10)   {printk("\n");cnt = 0;}
     }
+    printk("\nused is %d unused is %d \n",full,empty);
 }
 
 
@@ -109,13 +114,14 @@ void  four_p2()
 
 void four_p3()
 {
-
+  while(1){
     printk("do_fork success!\n");
     printk("\n\n\nprintf_mem_map\n\n\n");
     print_mem_map();
     printk("\n\n\nprintf_dir_page\n\n\n");
     print_dir_page();
-  
+wait_intr();
+  }
 }
 
 void four_one()

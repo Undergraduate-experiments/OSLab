@@ -21,9 +21,9 @@ void os_init(void) {
         
         //4.1
         mem_init(9 * 1024 * 1024, 128 * 1024 * 1024);
-        printk("\n\n init_map \n\n");
-       // print_mem_map();
-        printk("\nn\n\n\n\\n");
+        //printk("\n\n init_map \n\n");
+      //  print_mem_map();
+        printk("\n\n\n\n\\n");
         //4.2
        // four_one();
         //4.3
